@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <style>
+        body {
+            display: flex;
+            height: 100%;
+            margin: 0;
+        }
+
+        #paste,
+        #code {
+            width: 50%;
+            margin: 1rem;
+            border: 1px black solid;
+            overflow: auto;
+        }
+
+        #paste {
+            padding: 1rem;
+        }
+
+        #code {
+            font-family: monospace;
+            padding: 1rem 0;
+        }
+
+        #paste>* {
+            zoom: 75%;
+        }
+    </style>
+    <script src="/monaco-editor/min/vs/loader.js"></script>
+    <script>
+        addEventListener('DOMContentLoaded', () => {
+            require.config({ paths: { 'vs': '/monaco-editor/min/vs' } });
+            require(['vs/editor/editor.main'], function () {
+                var editor = monaco.editor.create(document.getElementById('code'), {
+                    value: '',
+                    language: 'html',
+                    wordWrap: 'on',
+                    readOnly: true
+                });
+                let paste = document.getElementById('paste');
+                let code = document.getElementById('code');
+                new MutationObserver(() => {
+                    editor.setValue(paste.innerHTML);
+                }).observe(paste, { childList: true, subtree: true, characterData: true });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="paste" contentEditable="true"></div>
+    <div id="code"></div>
+</body>
+
+</html>
