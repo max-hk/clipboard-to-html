@@ -1,44 +1,92 @@
 <html>
 
 <head>
+    <!--
+        FIx Monaco Editor displaying 'Â' in startup
+        https://spectrum.chat/parcel/general/weird-encoding-in-monaco-electron-with-parceljs~3de2f45f-207b-4945-b3f0-c21f7eedc6fb
+    -->
+    <meta charset='UTF-8'>
+
+    <title>Clipboard to HTML code converter</title>
+
     <style>
         body {
             display: flex;
+            flex-direction: column;
             height: 100%;
             margin: 0;
+        }
+
+        #top-app-bar {
+            position: relative !important;
+        }
+
+        #container {
+            display: flex;
+            flex-grow: 1;
         }
 
         #paste,
         #code {
             width: 50%;
             margin: 1rem;
-            border: 1px black solid;
             overflow: auto;
         }
 
         #paste {
             padding: 1rem;
+            max-height: 100%;
+        }
+
+        #paste:empty:before {
+            color: rgba(0, 0, 0, .38);
+            content: "Paste here";
+            height: 100%;
+            width: 100%;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            /* CSS from Material Components for the Web → Typography → headline2*/
+            font-size: 3.75rem;
+            line-height: 3.75rem;
+            letter-spacing: -.0083333333em;
+            font-family: Roboto, sans-serif;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            font-weight: 300;
+            text-decoration: inherit;
+            text-transform: inherit;
         }
 
         #code {
-            font-family: monospace;
             padding: 1rem 0;
         }
 
-        #paste>* {
-            zoom: 75%;
+        /* Prevent Editor from overflowing */
+
+        #code>.monaco-editor {
+            height: 100% !important;
+        }
+
+        #code>.monaco-editor>.overflow-guard {
+            height: 100% !important;
         }
     </style>
+
     <script src="./monaco-editor/min/vs/loader.js"></script>
     <script>
         addEventListener('DOMContentLoaded', () => {
             require.config({ paths: { 'vs': './monaco-editor/min/vs' } });
             require(['vs/editor/editor.main'], function () {
                 var editor = monaco.editor.create(document.getElementById('code'), {
-                    value: '',
+                    value: 'HTML code goes here',
                     language: 'html',
                     wordWrap: 'on',
-                    readOnly: true
+                    readOnly: true,
+                    scrollBeyondLastLine: false,
+                    minimap: { showSlider: "always" }
                 });
                 let paste = document.getElementById('paste');
                 let code = document.getElementById('code');
@@ -46,13 +94,26 @@
                     editor.setValue(paste.innerHTML);
                 }).observe(paste, { childList: true, subtree: true, characterData: true });
             });
+            document.getElementById('paste').focus();
         });
     </script>
+
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="paste" contentEditable="true"></div>
-    <div id="code"></div>
+    <header class=" mdc-top-app-bar" id="top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <span class="mdc-top-app-bar__title">Clipboard to HTML code converter</span>
+            </section>
+        </div>
+    </header>
+
+    <div id="container">
+        <div id="paste" class="mdc-card demo-card" contentEditable="true"></div>
+        <div id="code" class="mdc-card demo-card"></div>
+    </div>
 </body>
 
 </html>
