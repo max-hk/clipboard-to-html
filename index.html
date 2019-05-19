@@ -2,8 +2,8 @@
 
 <head>
     <!--
-        FIx Monaco Editor displaying 'Â' in startup
-        https://spectrum.chat/parcel/general/weird-encoding-in-monaco-electron-with-parceljs~3de2f45f-207b-4945-b3f0-c21f7eedc6fb
+        FIx Monaco Editor displaying 'Â' on startup
+        https://spectrum.chat/parcel/general/weird-encoding-in-monaco-electron-with-parceljs~3de2f45f-207b-4945-b3f0-c21f7eedc6fb?m=MTU1MzAzMDc0OTQyMA==
     -->
     <meta charset='UTF-8'>
 
@@ -36,19 +36,23 @@
         #paste {
             padding: 1rem;
             max-height: 100%;
+            font-family: Roboto, sans-serif;
         }
 
         #paste:empty:before {
+            /* Material Design disabled text color 
+             * https://material.io/design/color/text-legibility.html#text-backgrounds
+             */
             color: rgba(0, 0, 0, .38);
             content: "Paste here";
             height: 100%;
             width: 100%;
 
-            display:flex;
-            justify-content:center;
-            align-items:center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-            /* CSS from Material Components for the Web → Typography → headline2*/
+            /* CSS from: Material Components for the Web → Typography → headline2 */
             font-size: 3.75rem;
             line-height: 3.75rem;
             letter-spacing: -.0083333333em;
@@ -86,6 +90,7 @@
                     wordWrap: 'on',
                     readOnly: true,
                     scrollBeyondLastLine: false,
+                    fontFamily: '"Roboto Mono", monospace',
                     minimap: { showSlider: "always" }
                 });
                 let paste = document.getElementById('paste');
@@ -98,6 +103,7 @@
         });
     </script>
 
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 </head>
 
