@@ -13,6 +13,7 @@
         body {
             display: flex;
             flex-direction: column;
+            /* Prevent #paste from overflowing */
             height: 100%;
             margin: 0;
         }
@@ -93,17 +94,18 @@
                     fontFamily: '"Roboto Mono", monospace',
                     minimap: { showSlider: "always" }
                 });
+
                 let paste = document.getElementById('paste');
-                let code = document.getElementById('code');
                 new MutationObserver(() => {
                     editor.setValue(paste.innerHTML);
                 }).observe(paste, { childList: true, subtree: true, characterData: true });
+
+                paste.focus();
             });
-            document.getElementById('paste').focus();
         });
     </script>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,500&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 </head>
 
