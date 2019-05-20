@@ -13,9 +13,10 @@
         body {
             display: flex;
             flex-direction: column;
+            margin: 0;
+
             /* Prevent #paste from overflowing */
             height: 100%;
-            margin: 0;
         }
 
         #top-app-bar {
@@ -36,8 +37,10 @@
 
         #paste {
             padding: 1rem;
-            max-height: 100%;
             font-family: Roboto, sans-serif;
+
+            /* Prevent #paste from overflowing */
+            max-height: 100%;
         }
 
         #paste:empty:before {
