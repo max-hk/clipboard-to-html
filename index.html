@@ -37,10 +37,15 @@
 
         #paste {
             padding: 1rem;
+            margin-right: 0;
             font-family: Roboto, sans-serif;
 
             /* Prevent #paste from overflowing */
             max-height: 100%;
+        }
+
+        #paste:focus {
+            outline: 0;
         }
 
         #paste:empty:before {
