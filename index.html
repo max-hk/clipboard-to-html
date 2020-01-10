@@ -88,10 +88,10 @@
         }
     </style>
 
-    <script src="./monaco-editor/min/vs/loader.js"></script>
+    <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
     <script>
         addEventListener('DOMContentLoaded', () => {
-            require.config({ paths: { 'vs': './monaco-editor/min/vs' } });
+            require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' } });
             require(['vs/editor/editor.main'], function () {
                 var editor = monaco.editor.create(document.getElementById('code'), {
                     value: 'HTML code goes here',
