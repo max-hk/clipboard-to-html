@@ -26,6 +26,9 @@
         #container {
             display: flex;
             flex-grow: 1;
+
+            /* Prevent #container from overflowing */
+            height: calc(100% - 64px);
         }
 
         #paste,
@@ -77,14 +80,15 @@
             padding: 1rem 0;
         }
 
-        /* Prevent Editor from overflowing */
-
-        #code>.monaco-editor {
-            height: 100% !important;
+        
+        #code>#editor {
+            height: 100%;
         }
 
-        #code>.monaco-editor>.overflow-guard {
-            height: 100% !important;
+        /* Prevent Editor from overflowing */
+
+        #code>#editor>.monaco-editor .rename-box {
+            display: none;
         }
     </style>
 
@@ -93,14 +97,13 @@
         addEventListener('DOMContentLoaded', () => {
             require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' } });
             require(['vs/editor/editor.main'], function () {
-                var editor = monaco.editor.create(document.getElementById('code'), {
+                var editor = monaco.editor.create(document.getElementById('editor'), {
                     value: 'HTML code goes here',
                     language: 'html',
                     wordWrap: 'on',
                     readOnly: true,
                     scrollBeyondLastLine: false,
                     fontFamily: '"Roboto Mono", monospace',
-                    minimap: { showSlider: "always" }
                 });
 
                 let paste = document.getElementById('paste');
@@ -128,7 +131,9 @@
 
     <div id="container">
         <div id="paste" class="mdc-card demo-card" contentEditable="true"></div>
-        <div id="code" class="mdc-card demo-card"></div>
+        <div id="code" class="mdc-card demo-card">
+            <div id="editor"></div>
+        </div>
     </div>
 </body>
 
